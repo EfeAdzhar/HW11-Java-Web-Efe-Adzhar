@@ -8,4 +8,15 @@
         <realm-name>Realm Name</realm-name>
     </login-config>
 
+    <filter>
+        <filter-name>loginFilter</filter-name>
+        <filter-class>com.academy.webacademy.LoginFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>loginFilter</filter-name>
+        <url-pattern>/table/*</url-pattern>
+        <url-pattern>/tables</url-pattern>
+    </filter-mapping>
+
 </web-app>
