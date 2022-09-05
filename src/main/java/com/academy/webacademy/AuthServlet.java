@@ -13,8 +13,13 @@ import jakarta.servlet.annotation.*;
 
 public class AuthServlet extends HttpServlet {
 
+    //FIXED:
     // to remove init/destroy methods
+
+    //FIXED:
     // Remove new LoginFilter().session(session, resp); I don't know why you need it
+
+    //IN PROCESS:
     // let's use constants for name/password attribute fields
 
     @Override
