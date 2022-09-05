@@ -13,7 +13,7 @@ class FileRepository {
         //FIXED:
         // Should be files in resources directory with relative path. Please check Gradle structure
 
-        File file = new File("/Users/efe/Desktop/web-academy/src/main/db");
+        File file = new File("/Users/efe/Desktop/web-academy/src/main/resources/db");
         System.out.println("I'm in listOfFiles in FileRedactor class and got here by GET /tables");
         File[] files = file.listFiles();
         int counter = 0;
@@ -30,7 +30,7 @@ class FileRepository {
 
     //MARK: GET
     public String contentOfFile(String path) throws IOException {
-        File file = new File("/Users/efe/Desktop/web-academy/src/main/db");
+        File file = new File("/Users/efe/Desktop/web-academy/src/main/resources/db");
         try (FileInputStream fileInputStream = new FileInputStream(file + path)) {
             return new String(fileInputStream.readAllBytes());
         }
@@ -41,7 +41,7 @@ class FileRepository {
 
     //MARK : POST
     public String createNewFile(String path) throws IOException {
-        File file = new File("/Users/efe/Desktop/web-academy/src/main/db");
+        File file = new File("/Users/efe/Desktop/web-academy/src/main/resources/db");
         Path post = Path.of(file + path);
         Files.createFile(post);
        return "Created new file" + path;
@@ -49,7 +49,7 @@ class FileRepository {
 
     //MARK: PUT
     public String inputInFile(String path, String name) throws IOException {
-        File file = new File("/Users/efe/Desktop/web-academy/src/main/db");
+        File file = new File("/Users/efe/Desktop/web-academy/src/main/resources/db");
         try (FileWriter fileWriter = new FileWriter(file + path, true)) {
             fileWriter.write(name + " ");
             return "PUT successful";
@@ -58,7 +58,7 @@ class FileRepository {
 
     //MARK: DELETE
     public String deleteFile(String path) {
-        File file = new File("/Users/efe/Desktop/web-academy/src/main/db" + path);
+        File file = new File("/Users/efe/Desktop/web-academy/src/main/resources/db" + path);
         if (file.delete()) {
             return "File " + file.getName() + " deleted successfully";
         } else {
