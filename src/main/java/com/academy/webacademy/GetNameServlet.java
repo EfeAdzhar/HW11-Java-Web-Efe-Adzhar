@@ -11,6 +11,6 @@ import java.io.IOException;
 public class GetNameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        new FileRepository().listOfFiles(resp);
+        resp.getWriter().println(new FileRepository().listOfFiles());
     }
 }
