@@ -11,10 +11,13 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-class FileRedactor {
+class FileRepository {
 
-
+    // Please return here and other methods content and take arguments that you need. (decouple web from java business logic)
     public void listOfFiles(HttpServletResponse response) throws IOException {
+
+        // Should be files in resources directory with relative path. Please check Gradle structure
+
         File file = new File("/Users/efe/Desktop/web-academy/src/main/java/com/academy/webacademy/db");
         response.getWriter().println("I'm in listOfFiles in FileRedactor class and got here by GET /tables");
         File[] files = file.listFiles();
@@ -33,19 +36,20 @@ class FileRedactor {
     //MARK: GET
     public void contentOfFile(String path, HttpServletResponse response) throws IOException {
         File file = new File("/Users/efe/Desktop/web-academy/src/main/java/com/academy/webacademy/db");
-        response.getWriter().println("am i here?");
         try (FileInputStream fileInputStream = new FileInputStream(file + path)) {
             response.getWriter().println(new String(fileInputStream.readAllBytes()));
             response.setStatus(200);
         }
     }
 
+    // do not forget to move file and remove dependency on web classes
     //MARK : POST
     public void createNewFile(String path, HttpServletResponse response) throws IOException {
         File file = new File("/Users/efe/Desktop/web-academy/src/main/java/com/academy/webacademy/db");
         Path post = Path.of(file + path);
         Files.createFile(post);
         response.getWriter().println("Created new file" + path);
+        response.setStatus(200);
     }
 
     //MARK: PUT
@@ -61,6 +65,7 @@ class FileRedactor {
         try (FileWriter fileWriter = new FileWriter(file + path, true)) {
             fileWriter.write(name + " ");
             response.getWriter().println("PUT successful");
+            response.setStatus(200);
         }
     }
 
@@ -69,6 +74,7 @@ class FileRedactor {
         File file = new File("/Users/efe/Desktop/web-academy/src/main/java/com/academy/webacademy/db" + path);
         if (file.delete()) {
             response.getWriter().println("File " + request.getPathInfo() + " deleted successfully");
+            response.setStatus(200);
         } else {
             response.getWriter().println("Error in deleting file");
         }

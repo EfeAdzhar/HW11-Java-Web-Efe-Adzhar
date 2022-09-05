@@ -13,9 +13,9 @@ import jakarta.servlet.annotation.*;
 
 public class AuthServlet extends HttpServlet {
 
-    @Override
-    public void init() {
-    }
+    // to remove init/destroy methods
+    // Remove new LoginFilter().session(session, resp); I don't know why you need it
+    // let's use constants for name/password attribute fields
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -24,14 +24,11 @@ public class AuthServlet extends HttpServlet {
         TypeReference<HashMap<String, Object>> typeRef = new TypeReference<>() {
         };
         Map<String, Object> kvMap = mapper.readValue(json, typeRef);
-        String name = (String) kvMap.get("name");
+        final String name = (String) kvMap.get("name");
 
         HttpSession session = req.getSession();
         session.setAttribute("name", name);
         resp.getWriter().println("login:" + session.getAttribute("name"));
-        new LoginFilter().session(session, resp);
-    }
-
-    public void destroy() {
+        resp.setStatus(200);
     }
 }
