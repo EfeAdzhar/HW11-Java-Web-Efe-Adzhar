@@ -13,13 +13,16 @@ import jakarta.servlet.annotation.*;
 
 public class AuthServlet extends HttpServlet {
 
+    String name;
+    String password;
+
     //FIXED:
     // to remove init/destroy methods
 
     //FIXED:
     // Remove new LoginFilter().session(session, resp); I don't know why you need it
 
-    //IN PROCESS:
+    //MAYBE FIXED:
     // let's use constants for name/password attribute fields
 
     @Override
@@ -29,11 +32,13 @@ public class AuthServlet extends HttpServlet {
         TypeReference<HashMap<String, Object>> typeRef = new TypeReference<>() {
         };
         Map<String, Object> kvMap = mapper.readValue(json, typeRef);
-        final String name = (String) kvMap.get("name");
+        name = (String) kvMap.get("name");
+        password = (String) kvMap.get("password");
 
         HttpSession session = req.getSession();
         session.setAttribute("name", name);
-        resp.getWriter().println("login:" + session.getAttribute("name"));
+        session.setAttribute("password", password);
+        resp.getWriter().println("login: " + session.getAttribute("name") +"\npassword: "+ session.getAttribute("password"));
         resp.setStatus(200);
     }
 }

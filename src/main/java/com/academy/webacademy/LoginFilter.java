@@ -1,19 +1,24 @@
 package com.academy.webacademy;
 
 import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-
 public class LoginFilter implements Filter {
 
+    //IN PROCESS:
     // you need to get session out of servlet and check if name attribute present.
     // in current implementation Session is not used
     // also in case of success just propagate request further. in case of error return status code. you din;t need writer in filter here
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         response.getWriter().println("Entering loginFilter");
-        if (request.getAttribute("name").equals("Efe")) {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpSession session = httpServletRequest.getSession();
+        if (session.getAttribute("name").equals("Efe")) {
             response.getWriter().println("login is not absent");
             filterChain.doFilter(request, response);
         } else {
