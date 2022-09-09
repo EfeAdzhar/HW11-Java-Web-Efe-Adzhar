@@ -13,32 +13,20 @@ import jakarta.servlet.annotation.*;
 
 public class AuthServlet extends HttpServlet {
 
-    String name;
-    String password;
-
-    //FIXED:
-    // to remove init/destroy methods
-
-    //FIXED:
-    // Remove new LoginFilter().session(session, resp); I don't know why you need it
-
-    //MAYBE FIXED:
-    // let's use constants for name/password attribute fields
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String json = GetBody.getBody(req);
+        String json = RequestUtil.parseBody(req);
         ObjectMapper mapper = new ObjectMapper();
         TypeReference<HashMap<String, Object>> typeRef = new TypeReference<>() {
         };
         Map<String, Object> kvMap = mapper.readValue(json, typeRef);
-        name = (String) kvMap.get("name");
-        password = (String) kvMap.get("password");
+        String name = (String) kvMap.get("name");
+        String password = (String) kvMap.get("password");
 
         HttpSession session = req.getSession();
         session.setAttribute("name", name);
         session.setAttribute("password", password);
         resp.getWriter().println("login: " + session.getAttribute("name") +"\npassword: "+ session.getAttribute("password"));
-        resp.setStatus(200);
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
 }

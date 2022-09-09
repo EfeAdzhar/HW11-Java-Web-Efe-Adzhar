@@ -16,7 +16,7 @@ public class TableServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.getWriter().println("Getting file. Going to FileRedactor/contentOfFile");
-        resp.getWriter().println(new FileRepository().contentOfFile(req.getPathInfo()));
+        resp.getWriter().println(new FileRepository().getFileContent(req.getPathInfo()));
     }
 
     @Override
@@ -29,14 +29,14 @@ public class TableServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.getWriter().println(req.getPathInfo() + " Adding text to file. Going to FileRedactor/inputInFile");
 
-        String text = GetBody.getBody(req);
+        String text = RequestUtil.parseBody(req);
         ObjectMapper mapper = new ObjectMapper();
         TypeReference<HashMap<String, Object>> typeRef = new TypeReference<>() {
         };
         Map<String, Object> kvMap = mapper.readValue(text, typeRef);
         String name = (String) kvMap.get("content");
 
-        resp.getWriter().println(new FileRepository().inputInFile(req.getPathInfo(), name));
+        resp.getWriter().println(new FileRepository().updateFileContent(req.getPathInfo(), name));
     }
 
     @Override

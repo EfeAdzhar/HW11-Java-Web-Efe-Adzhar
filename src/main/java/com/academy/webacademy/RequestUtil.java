@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class GetBody {
-    static String getBody(HttpServletRequest request) {
+public class RequestUtil {
+    static String parseBody(HttpServletRequest request) {
         StringBuilder bodyBuilder = new StringBuilder();
         try (InputStream inputStream = request.getInputStream();
              BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
