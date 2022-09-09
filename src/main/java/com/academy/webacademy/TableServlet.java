@@ -14,9 +14,13 @@ import java.util.Map;
 @WebServlet(name = "table", urlPatterns = "/table/*")
 public class TableServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.getWriter().println("Getting file. Going to FileRedactor/contentOfFile");
-        resp.getWriter().println(new FileRepository().getFileContent(req.getPathInfo()));
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            resp.getWriter().println("Getting file. Going to FileRedactor/contentOfFile");
+            resp.getWriter().println(new FileRepository().getFileContent(req.getPathInfo()));
+        } catch (IOException ioException) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     @Override
@@ -26,7 +30,8 @@ public class TableServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
+        try {
         resp.getWriter().println(req.getPathInfo() + " Adding text to file. Going to FileRedactor/inputInFile");
 
         String text = RequestUtil.parseBody(req);
@@ -37,12 +42,19 @@ public class TableServlet extends HttpServlet {
         String name = (String) kvMap.get("content");
 
         resp.getWriter().println(new FileRepository().updateFileContent(req.getPathInfo(), name));
+        } catch (IOException ioException) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
+        try {
         resp.getWriter().println(req.getPathInfo() + " Deleting file. Going to FileRedactor/deleteFile");
         resp.getWriter().println(new FileRepository().deleteFile(req.getPathInfo()));
+        } catch (IOException ioException) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     @Override
