@@ -22,7 +22,7 @@ public class TableServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.getWriter().println(req.getPathInfo() + " Creating new File. Going to FileRedactor/createNewFile");
-        resp.getWriter().println(new FileRepository().createNewFile(req.getPathInfo()));
+        resp.getWriter().println(new FileRepository().createNewFile(req.getPathInfo(), RequestUtil.parseBody(req)));
     }
 
     @Override
