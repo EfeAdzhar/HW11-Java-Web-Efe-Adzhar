@@ -3,11 +3,10 @@ package com.academy.webacademy;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 class FileRepository {
 
-    File pathToFiles = new File(Objects.requireNonNull(this.getClass().getClassLoader().getResource("db")).getPath());
+    File pathToFiles = new File("/Users/efe/Desktop/web-academy/src/main/resources/db");
 
     //TableServlet
     //GET
@@ -48,16 +47,14 @@ class FileRepository {
         File[] files = pathToFiles.listFiles();
         assert files != null;
         for (File file : files) {
-            if (file.getName().equals(path)) {
+            if (("/" + file.getName()).equals(path)) {
                 try (FileWriter fileWriter = new FileWriter(pathToFiles + path, true)) {
                     fileWriter.write(name);
                     return true;
                 }
-            } else {
-                throw new IOException();
             }
         }
-        return true;
+        throw new IOException();
     }
 
     //DELETE
@@ -65,13 +62,12 @@ class FileRepository {
         File[] files = pathToFiles.listFiles();
         assert files != null;
         for (File file : files) {
-            if (file.getName().equals(path)) {
-                File filePath = new File(pathToFiles + path);
-                return filePath.delete();
-            } else {
-                throw new IOException();
+            if (("/" + file.getName()).equals(path)) {
+                if (file.delete()) {
+                    return true;
+                }
             }
         }
-        return true;
+        throw new IOException();
     }
 }

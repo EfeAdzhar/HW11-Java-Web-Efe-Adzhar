@@ -1,2 +1,1 @@
-Hello from table.txt
-Igor Efe Hello 
+Hello!
